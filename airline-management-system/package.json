@@ -1,0 +1,39 @@
+{
+  "name": "airline-management-system",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend/services/*"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm install --workspace=frontend && npm install --workspaces --if-present",
+    "postinstall": "npm run setup:services",
+    "setup:services": "node scripts/setup.js",
+    
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:gateway": "npm run dev --workspace=backend/services/api-gateway",
+    "dev:user": "npm run dev --workspace=backend/services/user-service",
+    "dev:flight": "npm run dev --workspace=backend/services/flight-service",
+    "dev:booking": "npm run dev --workspace=backend/services/booking-service",
+    "dev:payment": "npm run dev --workspace=backend/services/payment-service",
+    "dev:pricing": "npm run dev --workspace=backend/services/pricing-service",
+    "dev:recommendation": "npm run dev --workspace=backend/services/recommendation-service",
+    "dev:notification": "npm run dev --workspace=backend/services/notification-service",
+    "dev:admin": "npm run dev --workspace=backend/services/admin-service",
+    
+    "dev:backend": "concurrently \"npm run dev:gateway\" \"npm run dev:user\" \"npm run dev:flight\" \"npm run dev:booking\"",
+    "dev:all": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    
+    "build:frontend": "npm run build --workspace=frontend",
+    "build:backend": "npm run build --workspaces --if-present",
+    "build": "npm run build:frontend && npm run build:backend",
+    
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
